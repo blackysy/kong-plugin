@@ -76,8 +76,7 @@ function FileLogHandler:log(conf)
   local message = string.format("%s - %s - %s - %s - %s - %s - %s - %s - %s - %s",
                                 remote_addr, remote_user, time_local, request,
                                 status, body_bytes_sent, http_referer, http_user_agent,
-                                http_x_forwarded_for, upstream_addr
-  )
+                                http_x_forwarded_for, upstream_addr)
 
   log(conf, message)
 end
