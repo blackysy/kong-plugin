@@ -33,6 +33,12 @@ local file_descriptors = {}
 local function log(conf, message)
   local msg = cjson.encode(message) .. "\n"
 
+  -- Get log directory, if is no then create directory.
+  local conf_dir = string.match(conf.path, "(.+)/[^/]*%.%w+$")
+  if os.execute("cd " .. "\"" .. conf_dir .. "\" >/dev/null 2>&1") ~= true then
+      os.execute("mkdir " .. conf_dir)
+  end
+
   local fd = file_descriptors[conf.path]
 
   if fd and conf.reopen then
