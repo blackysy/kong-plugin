@@ -1,6 +1,6 @@
 -- Copyright (C) Kong Inc.
 local ffi = require "ffi"
-local cjson = require "cjson"
+-- local cjson = require "cjson"
 local system_constants = require "lua_system_constants"
 local basic_serializer = require "kong.plugins.log-serializers.basic"
 
@@ -31,7 +31,8 @@ local file_descriptors = {}
 -- @param `conf`     Configuration table, holds http endpoint details
 -- @param `message`  Message to be logged
 local function log(conf, message)
-  local msg = cjson.encode(message) .. "\n"
+  -- local msg = cjson.encode(message) .. "\n"
+  local msg = message .. "\n"
 
   -- Get log directory, if is no then create directory.
   local conf_dir = string.match(conf.path, "(.+)/[^/]*%.%w+$")
@@ -77,7 +78,7 @@ function FileLogHandler:log(conf)
   local body_bytes_sent = ngx.var.body_bytes_sent
   local http_referer = ngx.var.http_referer or ''
   local http_user_agent = ngx.var.http_user_agent
-  local http_x_forwarded_for = ngx.var.http_x_forwarded_for or ''
+  local http_x_forwarded_for = ngx.var.proxy_add_x_forwarded_for or ''
   local upstream_addr = ngx.var.upstream_addr
   local message = string.format("%s - %s - %s - %s - %s - %s - %s - %s - %s - %s",
                                 remote_addr, remote_user, time_local, request,
